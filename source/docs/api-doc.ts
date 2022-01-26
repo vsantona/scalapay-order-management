@@ -7,7 +7,7 @@ module.exports = {
   info: {
     version: "1.0.0",
     title: "Order Management Tool",
-    description: "API to add a new order to the Scalapay portal",
+    description: "API to add a new order into the Scalapay portal",
     contact: {
       name: "Vincenzo Santonastaso",
       url: "https://github.com/vincenzoSantonastasoGithub/OrderManagementTool",

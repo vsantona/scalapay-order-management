@@ -9,5 +9,10 @@
       "skipLibCheck": true,
       "strict": true,
       "types": ["node", "jest"],
-  }
+  },
+    "include": [
+      "source/**/*"
+    ],
+    "exclude": ["**/*.mock.ts", "**/*.spec.ts"]
+
 }

@@ -1,5 +1,5 @@
 import { Order } from "../model/order";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 const authToken = "qhtfs87hjnc12kkos";
 export const BASE_URL = "https://staging.api.scalapay.com/v2";
