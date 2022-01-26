@@ -5,6 +5,7 @@
   "main": "source/server.ts",
   "scripts": {
     "dev": "nodemon source/server.ts",
+    "start": "tsc source/server.ts | node build/server.js",
     "build": "rimraf ./build && prettier --write source/ && tsc",
     "test": "jest"
   },

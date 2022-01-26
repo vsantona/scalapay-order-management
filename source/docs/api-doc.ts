@@ -1,101 +1,4 @@
-const createOrder = {
-  tags: ["Orders"],
-  description: "Create a user",
-  operationId: "createOrder",
-  security: [
-    {
-      bearerAuth: [],
-    },
-  ],
-  requestBody: {
-    content: {
-      "application/json": {
-        schema: {
-          $ref: "#/components/schemas/createOrderBody",
-        },
-      },
-    },
-    required: true,
-  },
-  responses: {
-    "200": {
-      description: "Order created successfully!",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              totalAmount: {
-                type: "object",
-                required: true,
-                properties: {
-                  amount: {
-                    type: "string",
-                    description: "Amount of the order",
-                    required: true,
-                    example: "190.00",
-                  },
-                  currency: {
-                    type: "string",
-                    description: "Currency type (should be EUR)",
-                    required: true,
-                    example: "EUR",
-                  },
-                },
-              },
-              fullName: {
-                type: "string",
-                example: "John Snow",
-              },
-              email: {
-                type: "string",
-                example: "john.snow@email.com",
-              },
-              password: {
-                type: "string",
-                example: "442893aba778ab321dc151d9b1ad98c64ed56c07f8cbaed",
-              },
-              enabled: {
-                type: "boolean",
-                example: true,
-              },
-              role: {
-                type: "string",
-                example: "605636683f6e29c81c8b2db0",
-              },
-              createdAt: {
-                type: "string",
-                example: "2021-03-20T19:40:59.495Z",
-              },
-              updatedAt: {
-                type: "string",
-                example: "2021-03-20T21:23:10.879Z",
-              },
-            },
-          },
-        },
-      },
-    },
-    "500": {
-      description: "Internal Server Error",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              message: {
-                type: "string",
-                example: "Internal Server Error",
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-const createOrderBody = {
+const requestBody = {
   type: "object",
   properties: {
     totalAmount: {
@@ -201,6 +104,125 @@ const createOrderBody = {
         },
       },
     },
+    items: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          gtin: {
+            type: "string",
+            description: "Global Trade Item Number. One of [UPC, EAN, JAN, ISBN, ITF-14]",
+            example: "123458791330",
+          },
+          quantity: {
+            type: "integer",
+            description: "Global Trade Item Number. One of [UPC, EAN, JAN, ISBN, ITF-14]",
+            required: true,
+            example: 1,
+          },
+          price: {
+            type: "object",
+            required: true,
+            properties: {
+              amount: {
+                type: "string",
+                description: "Amount of the order",
+                required: true,
+                example: "190.00",
+              },
+              currency: {
+                type: "string",
+                description: "Currency type (should be EUR)",
+                required: true,
+                example: "EUR",
+              },
+            },
+          },
+          name: {
+            type: "string",
+            required: true,
+            example: "T-Shirt",
+          },
+          category: {
+            type: "string",
+            required: true,
+            example: "clothes",
+          }
+        }
+      },
+    },
+    orderExpiryMilliseconds: {
+      type: "integer",
+      example: 600000
+    }
+  }
+};
+
+const responseBody = {
+  type: "object",
+  properties: {
+    token: {
+      type: "string",
+      description: "Scalapay order unique token"
+    },
+    expires: {
+      type: "string",
+      format: "date-time",
+      description: "Date and time of the order to expire in ISO 8601 format"
+    },
+    checkoutUrl: {
+      type: "string",
+      description: "Redirect Url to the Scalapay checkout"
+    }
+  },
+};
+
+const createOrder = {
+  tags: ["Orders"],
+  description: "Create an order",
+  operationId: "createOrder",
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  requestBody: {
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/requestBody",
+        },
+      },
+    },
+    required: true,
+  },
+  responses: {
+    "200": {
+      description: "Order created successfully!",
+      content: {
+        "application/json": {
+          schema: {
+            $ref: "#/components/schemas/responseBody",
+          },
+        },
+      },
+    },
+    "500": {
+      description: "Internal Server Error",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "Internal Server Error",
+              },
+            },
+          },
+        },
+      },
+    },
   },
 };
 
@@ -231,13 +253,14 @@ module.exports = {
     },
   ],
   paths: {
-    users: {
+    orders: {
       post: createOrder,
     },
   },
   components: {
     schemas: {
-      createOrderBody,
+      order: requestBody,
+      checkoutInfo: responseBody
     },
   },
 };
