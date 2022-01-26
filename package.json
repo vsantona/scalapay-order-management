@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf ./build && prettier --write source/ && tsc",
     "dev": "nodemon source/server.ts",
-    "start": "npm run build && node build/server.js",
+    "start": "node build/server.js",
     "test": "jest"
   },
   "keywords": [],
