@@ -1,4 +1,4 @@
-# Order Management Tool
+#  Scalapay Order Management
 
 REST API used by the merchants to create a new order into the Scalapay portal
 Merchant makes a call to /orders and receives an order-token as well as the redirectUrl to send the customer to Scalapay website to authorize the payment
